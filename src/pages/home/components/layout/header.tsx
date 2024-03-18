@@ -1,10 +1,22 @@
 import React, { useState } from "react";
 import { Button, Image } from "antd";
 import LoginFormModal from "../modal/loginFormModal";
+import SignUpFormModal from "../modal/signUpFormModal";
 import CustomButton from "../../../../components/customButton";
 
 const HomeHeader: React.FC = () => {
   const [isLoginModalVisible, setIsLoginModalVisible] = useState(false);
+  const [isSignUpModalVisible, setIsSignUpModalVibible] = useState(false);
+
+  const onRegisterClick = () => {
+    setIsLoginModalVisible(false);
+    setIsSignUpModalVibible(true);
+  };
+
+  const onSignInClick = () => {
+    setIsSignUpModalVibible(false);
+    setIsLoginModalVisible(true);
+  };
 
   return (
     <div className="flex flex-row justify-between items-center p-2 border-b h-16">
@@ -26,14 +38,19 @@ const HomeHeader: React.FC = () => {
           Нэвтрэх
         </Button>
         <CustomButton
-          onClick={() => setIsLoginModalVisible(true)}
+          onClick={() => setIsSignUpModalVibible(true)}
           text="Бүртгүүлэх"
         />
 
         <LoginFormModal
           visible={isLoginModalVisible}
           onClose={() => setIsLoginModalVisible(false)}
-          onRegisterClick={() => setIsLoginModalVisible(true)}
+          onRegisterClick={onRegisterClick}
+        />
+        <SignUpFormModal
+          visible={isSignUpModalVisible}
+          onClose={() => setIsSignUpModalVibible(false)}
+          onSignInClick={onSignInClick}
         />
       </div>
     </div>

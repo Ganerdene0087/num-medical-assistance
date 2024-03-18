@@ -2,13 +2,13 @@ import React from "react";
 import { Form, Input, Button, Modal, Divider } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 
-interface Props {
+interface LoginFormModalProps {
   visible: boolean;
   onClose: () => void;
   onRegisterClick: () => void;
 }
 
-const LoginFormModal: React.FC<Props> = ({
+const LoginFormModal: React.FC<LoginFormModalProps> = ({
   visible,
   onClose,
   onRegisterClick,
@@ -55,12 +55,13 @@ const LoginFormModal: React.FC<Props> = ({
         <Divider />
 
         <Form.Item>
+          <p className="text-center text-black mb-4">
+            Шинэ хэрэглэгч бол та энд дарж бүртгүүлнэ үү!
+          </p>
           <Button
-            type="primary"
-            htmlType="button"
             block
             onClick={onRegisterClick}
-            className="bg-blue-500 hover:bg-blue-700 text-white"
+            className="bg-white text-blue-700 mx-2"
           >
             Бүртгүүлэх
           </Button>
