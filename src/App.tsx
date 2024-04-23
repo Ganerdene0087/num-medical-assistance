@@ -1,9 +1,9 @@
 import React from "react";
 import "./App.css";
-import HomePage from "./pages/homePage/containers/homePage";
+import CustomRouter from "./components/layout/routes";
 
 function App() {
-  return <HomePage />;
+  return <CustomRouter></CustomRouter>;
 }
 
 export default App;

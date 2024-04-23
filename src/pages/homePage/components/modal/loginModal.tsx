@@ -1,5 +1,6 @@
 import React from "react";
 import { Modal, Form, Input, Button } from "antd";
+import { useNavigate } from "react-router-dom";
 
 interface LoginModalProps {
   visible: boolean;
@@ -7,6 +8,14 @@ interface LoginModalProps {
 }
 
 const LoginModal: React.FC<LoginModalProps> = ({ visible, onCancel }) => {
+  const navigate = useNavigate();
+  const onLogin = () => {
+    localStorage.removeItem("username");
+    localStorage.removeItem("token");
+    localStorage.removeItem("role");
+    localStorage.removeItem("routes");
+    navigate("/order");
+  };
   return (
     <Modal open={visible} onCancel={onCancel} footer={null}>
       <Form layout="vertical">
@@ -18,7 +27,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ visible, onCancel }) => {
         </Form.Item>
 
         <Form.Item>
-          <Button type="primary" block>
+          <Button type="primary" block onClick={onLogin}>
             Нэвтрэх
           </Button>
         </Form.Item>

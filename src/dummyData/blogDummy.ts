@@ -1,4 +1,4 @@
-import { IBlog } from "../types/blogType";
+import { IBlog } from "../interfaces/blogType";
 
 export const BlogDummyData: IBlog[] = [
   {

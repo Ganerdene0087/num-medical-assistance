@@ -1,5 +1,5 @@
 import React from "react";
-import { IBlog } from "../../../../types/blogType";
+import { IBlog } from "../../../../interfaces/blogType";
 import BlogItem from "../listItem/blogItem";
 import { BlogDummyData } from "../../../../dummyData/blogDummy";
 

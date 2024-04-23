@@ -1,6 +1,6 @@
 import React from "react";
 import { Card } from "antd";
-import { IBlog } from "../../../../types/blogType";
+import { IBlog } from "../../../../interfaces/blogType";
 import { CalendarOutlined } from "@ant-design/icons";
 import { Typography } from "antd";
 
