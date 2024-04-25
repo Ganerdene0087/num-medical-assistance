@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Layout, Menu } from "antd";
-import { orderMenuItem, inspectionMenuItems } from "../../utils/menuItem";
-import { AudioOutlined } from "@ant-design/icons";
+import {
+  appointmentMenuItem,
+  inspectionMenuItems,
+  treatmentMenuItems,
+  blogMenuItem,
+  absentMenuItem,
+} from "../../utils/menuItem";
 
 const { Sider } = Layout;
-const { SubMenu } = Menu;
-
-interface MenuItem {
-  key: string;
-  icon: React.ReactNode;
-  text: string;
-}
 
 interface SidebarProps {
   selectedMenuItem: string;
@@ -29,18 +27,6 @@ const Sidebar: React.FC<SidebarProps> = ({
       setOpenKeys([parentKey]);
     }
   }, [selectedMenuItem]);
-
-  const renderMenuItems = (menuItems: MenuItem[]) => {
-    return menuItems.map((item) => (
-      <Menu.Item
-        key={item.key}
-        icon={item.icon}
-        onClick={() => onMenuItemClick(item.key)}
-      >
-        {item.text}
-      </Menu.Item>
-    ));
-  };
 
   const handleSubMenuOpenChange = (keys: string[]) => {
     setOpenKeys(keys);
@@ -66,16 +52,40 @@ const Sidebar: React.FC<SidebarProps> = ({
         style={{ flex: 1, height: "100%" }}
       >
         <Menu.Item
-          key={orderMenuItem.key}
-          icon={orderMenuItem.icon}
-          onClick={() => onMenuItemClick(orderMenuItem.key)}
+          key={appointmentMenuItem.key}
+          icon={appointmentMenuItem.icon}
+          onClick={() => onMenuItemClick(appointmentMenuItem.key)}
         >
-          {orderMenuItem.text}
+          {appointmentMenuItem.text}
         </Menu.Item>
-
-        <SubMenu key="inspection" icon={<AudioOutlined />} title="Үзлэг">
-          {renderMenuItems(inspectionMenuItems)}
-        </SubMenu>
+        <Menu.Item
+          key={inspectionMenuItems.key}
+          icon={inspectionMenuItems.icon}
+          onClick={() => onMenuItemClick(inspectionMenuItems.key)}
+        >
+          {inspectionMenuItems.text}
+        </Menu.Item>
+        <Menu.Item
+          key={treatmentMenuItems.key}
+          icon={treatmentMenuItems.icon}
+          onClick={() => onMenuItemClick(treatmentMenuItems.key)}
+        >
+          {treatmentMenuItems.text}
+        </Menu.Item>
+        <Menu.Item
+          key={blogMenuItem.key}
+          icon={blogMenuItem.icon}
+          onClick={() => onMenuItemClick(blogMenuItem.key)}
+        >
+          {blogMenuItem.text}
+        </Menu.Item>
+        <Menu.Item
+          key={absentMenuItem.key}
+          icon={absentMenuItem.icon}
+          onClick={() => onMenuItemClick(absentMenuItem.key)}
+        >
+          {absentMenuItem.text}
+        </Menu.Item>
       </Menu>
     </Sider>
   );

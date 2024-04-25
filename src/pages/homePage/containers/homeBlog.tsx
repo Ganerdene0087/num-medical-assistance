@@ -2,7 +2,7 @@ import React from "react";
 import { Divider } from "antd";
 import BlogList from "../components/list/blogList";
 
-const Blog: React.FC = () => {
+const HomeBlog: React.FC = () => {
   return (
     <>
       <Divider>
@@ -13,4 +13,4 @@ const Blog: React.FC = () => {
   );
 };
 
-export default Blog;
+export default HomeBlog;

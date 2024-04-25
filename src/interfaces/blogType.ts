@@ -1,7 +1,7 @@
 export interface IBlog {
-  writer: string;
+  author: string;
   title: string;
   content: string;
-  createdDate: string;
+  date: string;
   thumb: string;
 }

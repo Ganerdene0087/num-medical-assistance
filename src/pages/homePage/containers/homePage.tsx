@@ -1,7 +1,7 @@
 import React from "react";
 import Top from "./top";
 import Feature from "./feature";
-import Blog from "./blog";
+import HomeBlog from "./homeBlog";
 
 const HomePage: React.FC = () => {
   return (
@@ -14,7 +14,7 @@ const HomePage: React.FC = () => {
           <Feature />
         </section>
         <section className="mb-8">
-          <Blog />
+          <HomeBlog />
         </section>
       </div>
     </div>

@@ -1,6 +1,6 @@
 import React from "react";
 import { Card, Typography, Image } from "antd";
-import { IBlog } from "../../../../interfaces/blogType";
+import { IBlog } from "../../../interfaces/blogType";
 import { CalendarOutlined } from "@ant-design/icons";
 
 const { Title, Paragraph } = Typography;
@@ -11,7 +11,7 @@ interface BlogItemProps {
 
 const BlogItem: React.FC<BlogItemProps> = ({ data }) => {
   return (
-    <Card hoverable className="shadow-md w-[70%]">
+    <Card hoverable style={{ margin: "auto" }} className="shadow-md w-full">
       <div className="flex">
         <div className="flex flex-1">
           <Image
@@ -20,8 +20,7 @@ const BlogItem: React.FC<BlogItemProps> = ({ data }) => {
             style={{ width: 150, height: 150, objectFit: "cover" }}
           />
         </div>
-
-        <div className="flex flex-col justify-between ml-4 w-[75%]">
+        <div className="flex flex-col justify-between ml-4 w-[80%]">
           <div>
             <Title level={5}>{data.title}</Title>
             <p>

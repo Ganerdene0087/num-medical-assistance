@@ -19,7 +19,7 @@ const LoginForm: React.FC = () => {
   };
 
   const onLogin = () => {
-    navigate("/order");
+    navigate("/appointment");
   };
   return (
     <>
