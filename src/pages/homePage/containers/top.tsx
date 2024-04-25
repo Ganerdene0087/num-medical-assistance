@@ -1,11 +1,11 @@
 import React from "react";
 import { Col, Row } from "antd";
-import SignUpForm from "../components/form/signUpForm";
+import LoginForm from "../components/form/loginForm";
 
 const Top: React.FC = () => {
   return (
     <div
-      className="h-max w-full bg-cover bg-center flex justify-center items-center"
+      className="min-h-[500px] w-full bg-cover bg-center flex justify-center items-center"
       style={{
         backgroundImage:
           "url('https://i.pinimg.com/originals/9a/d8/c7/9ad8c7028839bbc9ae66bab3780dd4e0.jpg')",
@@ -25,7 +25,7 @@ const Top: React.FC = () => {
         <Col span={12}>
           <div className="w-full h-full flex justify-center items-center">
             <div className="bg-white p-6 rounded-lg shadow-md">
-              <SignUpForm />
+              <LoginForm />
             </div>
           </div>
         </Col>

@@ -22,9 +22,10 @@ export const pathFinder = (role: string) => {
 };
 
 const routes: Route[] = [
-  { pattern: /^\/order\/$/, name: "Захиалга" },
-  { pattern: /^\/timetable\/$/, name: "Захиалсан цаг" },
-  { pattern: /^\/inspection\/$/, name: "Үзлэг" },
+  { pattern: /^\/order$/, name: "Цаг захиалах" },
+  { pattern: /^\/order\/timetable$/, name: "Захиалсан цагууд" },
+  { pattern: /^\/inspection$/, name: "Үзлэгийн жагсаалт" },
+  { pattern: /^\/personalInfo$/, name: "Хувийн мэдээлэл" },
 ];
 
 export const routeNameFinder = (route: string) => {

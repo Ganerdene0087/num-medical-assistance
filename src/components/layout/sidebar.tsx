@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Layout, Menu } from "antd";
-import { orderMenuItems, inspectionMenuItems } from "../../utils/menuItem";
-import { ReadOutlined, AudioOutlined } from "@ant-design/icons";
+import { orderMenuItem, inspectionMenuItems } from "../../utils/menuItem";
+import { AudioOutlined } from "@ant-design/icons";
 
 const { Sider } = Layout;
 const { SubMenu } = Menu;
@@ -65,11 +65,15 @@ const Sidebar: React.FC<SidebarProps> = ({
         onOpenChange={handleSubMenuOpenChange}
         style={{ flex: 1, height: "100%" }}
       >
-        <SubMenu key="news" icon={<ReadOutlined />} title="Цаг захиалга">
-          {renderMenuItems(orderMenuItems)}
-        </SubMenu>
+        <Menu.Item
+          key={orderMenuItem.key}
+          icon={orderMenuItem.icon}
+          onClick={() => onMenuItemClick(orderMenuItem.key)}
+        >
+          {orderMenuItem.text}
+        </Menu.Item>
 
-        <SubMenu key="podcast" icon={<AudioOutlined />} title="Үзлэг">
+        <SubMenu key="inspection" icon={<AudioOutlined />} title="Үзлэг">
           {renderMenuItems(inspectionMenuItems)}
         </SubMenu>
       </Menu>

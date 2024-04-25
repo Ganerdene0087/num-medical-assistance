@@ -1,31 +1,19 @@
-import {
-  ReadOutlined,
-  AppstoreOutlined,
-  CalendarOutlined,
-} from "@ant-design/icons";
+import { AppstoreOutlined, CalendarOutlined } from "@ant-design/icons";
 
-const orderMenuItems = [
-  {
-    key: "order/",
-    parentIcon: <ReadOutlined />,
-    icon: <ReadOutlined />,
-    text: "Цаг захиалга",
-  },
-  {
-    key: "timetable/",
-    parentIcon: <CalendarOutlined />,
-    icon: <CalendarOutlined />,
-    text: "Үзлэгийн хуваарь",
-  },
-];
+const orderMenuItem = {
+  key: "order",
+  parentIcon: <CalendarOutlined />,
+  icon: <CalendarOutlined />,
+  text: "Цаг захиалга",
+};
 
 const inspectionMenuItems = [
   {
-    key: "inspection/",
+    key: "inspection",
     parentIcon: <AppstoreOutlined />,
     icon: <AppstoreOutlined />,
     text: "Үзлэгийн жагсаалт",
   },
 ];
 
-export { orderMenuItems, inspectionMenuItems };
+export { orderMenuItem, inspectionMenuItems };
