@@ -34,7 +34,9 @@ const InspectionItem: React.FC<InspectionItemProps> = ({ data }) => {
             }}
           >
             <CalendarOutlined />
-            <span style={{ paddingLeft: "3px" }}>{data.date}</span>
+            <span style={{ paddingLeft: "3px" }}>
+              {data.date} {data.start_time}
+            </span>
           </div>
         </div>
       </div>

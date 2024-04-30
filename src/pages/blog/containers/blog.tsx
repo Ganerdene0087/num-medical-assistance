@@ -6,7 +6,7 @@ import CreateBlogModal from "../components/createBlogModal";
 const Blog: React.FC = () => {
   const [isCreateModalVisible, setIsCreateModalVisible] = useState(false);
   return (
-    <div>
+    <div className="flex flex-col">
       <Button type="primary" onClick={() => setIsCreateModalVisible(true)}>
         Нийтлэл нэмэх
       </Button>
