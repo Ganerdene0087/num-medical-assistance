@@ -1,7 +1,9 @@
 import React from "react";
-import { Layout, Button, Space, Image } from "antd";
+import { Layout, Button, Space, Image, message } from "antd";
 import { UserOutlined, LogoutOutlined } from "@ant-design/icons";
-import { useNavigate } from "react-router-dom";
+import { useMutation, useQuery } from "@apollo/client";
+import { LOGOUT } from "../../graphql/mutations/user.mutation";
+import { GET_AUTHENTICATED_USER } from "../../graphql/queries/user.query";
 
 const { Header } = Layout;
 
@@ -10,15 +12,19 @@ interface HeaderProps {
 }
 
 const AppHeader: React.FC<HeaderProps> = ({ routeName }) => {
-  const navigate = useNavigate();
-  const username = localStorage.getItem("username");
+  const [logout] = useMutation(LOGOUT, {
+    refetchQueries: ["GetAuthenticatedUser"],
+  });
+  const { data } = useQuery(GET_AUTHENTICATED_USER);
 
-  const onLogout = () => {
-    localStorage.removeItem("username");
-    localStorage.removeItem("token");
-    localStorage.removeItem("role");
-    localStorage.removeItem("routes");
-    navigate("/");
+  const onLogout = async () => {
+    try {
+      await logout();
+    } catch (error) {
+      console.error("Validation failed:", error);
+      message.error(`${error}`);
+    } finally {
+    }
   };
 
   return (
@@ -58,7 +64,7 @@ const AppHeader: React.FC<HeaderProps> = ({ routeName }) => {
             <>
               <UserOutlined style={{ color: "white", fontSize: "14px" }} />
               <span style={{ color: "white", marginRight: "16px" }}>
-                {username}
+                {data.authUser && data.authUser.username}
               </span>
             </>
 

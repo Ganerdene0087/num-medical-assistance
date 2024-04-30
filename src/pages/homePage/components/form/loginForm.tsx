@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { Form, Input, Button, Divider } from "antd";
-import { useNavigate } from "react-router-dom";
+import { Form, Input, Button, Divider, message } from "antd";
 import SignUpModal from "../modal/signUpModal";
+import { useMutation } from "@apollo/client";
+import { LOGIN } from "../../../../graphql/mutations/user.mutation";
 
 const LoginForm: React.FC = () => {
   const [form] = Form.useForm();
-  const navigate = useNavigate();
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [isLoginModalVisible, setIsLoginModalVisible] = useState(false);
@@ -18,8 +18,22 @@ const LoginForm: React.FC = () => {
     setPassword(event.target.value);
   };
 
-  const onLogin = () => {
-    navigate("/appointment");
+  const [login, { loading }] = useMutation(LOGIN, {
+    refetchQueries: ["GetAuthenticatedUser"],
+  });
+
+  const onLogin = async () => {
+    try {
+      const values = await form.validateFields();
+
+      await login({
+        variables: { input: values },
+      });
+    } catch (error) {
+      console.error("Validation failed:", error);
+      message.error(`${error}`);
+    } finally {
+    }
   };
   return (
     <>
@@ -42,6 +56,7 @@ const LoginForm: React.FC = () => {
           type="primary"
           block
           onClick={onLogin}
+          loading={loading}
           disabled={!username || !password}
         >
           Нэвтрэх

@@ -1,5 +1,7 @@
 import React from "react";
 import { Modal, Form, Input, Button, Row, Col, Radio, message } from "antd";
+import { useMutation } from "@apollo/client";
+import { SIGN_UP } from "../../../../graphql/mutations/user.mutation";
 
 interface SignUpModalProps {
   visible: boolean;
@@ -8,28 +10,40 @@ interface SignUpModalProps {
 
 const SignUpModal: React.FC<SignUpModalProps> = ({ visible, onCancel }) => {
   const [form] = Form.useForm();
+
+  const [signUp, { loading }] = useMutation(SIGN_UP);
+
   const handleOk = async () => {
     try {
       const values = await form.validateFields();
+      const finalValues = {
+        ...values,
+        age: parseInt(values.age),
+        phone: parseInt(values.phone),
+        role: "client",
+      };
 
-      console.log("values", values);
+      await signUp({
+        variables: { input: finalValues },
+      });
     } catch (error) {
       console.error("Validation failed:", error);
       message.error(`${error}`);
     } finally {
-      // onCancel();
+      onCancel();
     }
   };
 
   return (
     <Modal
       open={visible}
+      title="Бүртгүүлэх"
       onCancel={onCancel}
       footer={[
         <Button key="cancel" onClick={onCancel}>
           Болих
         </Button>,
-        <Button key="ok" type="primary" onClick={handleOk}>
+        <Button key="ok" type="primary" loading={loading} onClick={handleOk}>
           Бүртгүүлэх
         </Button>,
       ]}

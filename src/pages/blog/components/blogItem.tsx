@@ -1,7 +1,8 @@
-import React from "react";
-import { Card, Typography, Image } from "antd";
+import React, { useState } from "react";
+import { Card, Typography, Image, Button } from "antd";
 import { IBlog } from "../../../interfaces/blogType";
-import { CalendarOutlined } from "@ant-design/icons";
+import { CalendarOutlined, EditOutlined } from "@ant-design/icons";
+import CreateBlogModal from "./createBlogModal";
 
 const { Title, Paragraph } = Typography;
 
@@ -10,8 +11,20 @@ interface BlogItemProps {
 }
 
 const BlogItem: React.FC<BlogItemProps> = ({ data }) => {
+  const [isEditModalVisible, setIsEditModalVisible] = useState(false);
+
+  const handleEdit = () => {
+    setIsEditModalVisible(true);
+  };
   return (
     <Card hoverable style={{ margin: "auto" }} className="shadow-md w-full">
+      <Button
+        type="text"
+        icon={<EditOutlined />}
+        size="small"
+        style={{ position: "absolute", top: 10, right: 10, zIndex: 1 }}
+        onClick={handleEdit}
+      />
       <div className="flex">
         <div className="flex flex-1">
           <Image
@@ -47,6 +60,12 @@ const BlogItem: React.FC<BlogItemProps> = ({ data }) => {
           </div>
         </div>
       </div>
+      <CreateBlogModal
+        visible={isEditModalVisible}
+        type="Edit"
+        onCancel={() => setIsEditModalVisible(false)}
+        data={data}
+      />
     </Card>
   );
 };

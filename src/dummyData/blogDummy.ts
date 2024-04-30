@@ -2,6 +2,7 @@ import { IBlog } from "../interfaces/blogType";
 
 export const BlogDummyData: IBlog[] = [
   {
+    _id: "1",
     author: "John Doe",
     title: "Lorem Ipsum",
     content:
@@ -11,6 +12,7 @@ export const BlogDummyData: IBlog[] = [
       "https://www.simplilearn.com/ice9/free_resources_article_thumb/what_is_image_Processing.jpg",
   },
   {
+    _id: "2",
     author: "Jane Smith",
     title: "Dolor Sit Amet",
     content:
@@ -20,6 +22,7 @@ export const BlogDummyData: IBlog[] = [
       "https://www.simplilearn.com/ice9/free_resources_article_thumb/what_is_image_Processing.jpg",
   },
   {
+    _id: "3",
     author: "Alice Johnson",
     title: "Consectetur Adipiscing",
     content:
@@ -29,6 +32,7 @@ export const BlogDummyData: IBlog[] = [
       "https://www.simplilearn.com/ice9/free_resources_article_thumb/what_is_image_Processing.jpg",
   },
   {
+    _id: "4",
     author: "Bob Brown",
     title: "Sed Do Eiusmod",
     content:
@@ -38,6 +42,7 @@ export const BlogDummyData: IBlog[] = [
       "https://www.simplilearn.com/ice9/free_resources_article_thumb/what_is_image_Processing.jpg",
   },
   {
+    _id: "5",
     author: "Emma Davis",
     title: "Tempor Incididunt",
     content:
@@ -47,6 +52,7 @@ export const BlogDummyData: IBlog[] = [
       "https://www.simplilearn.com/ice9/free_resources_article_thumb/what_is_image_Processing.jpg",
   },
   {
+    _id: "6",
     author: "Michael Wilson",
     title: "Labore Et Dolore",
     content:
@@ -56,6 +62,7 @@ export const BlogDummyData: IBlog[] = [
       "https://www.simplilearn.com/ice9/free_resources_article_thumb/what_is_image_Processing.jpg",
   },
   {
+    _id: "7",
     author: "Sarah Martinez",
     title: "Magna Aliqua",
     content:
@@ -65,6 +72,7 @@ export const BlogDummyData: IBlog[] = [
       "https://www.simplilearn.com/ice9/free_resources_article_thumb/what_is_image_Processing.jpg",
   },
   {
+    _id: "8",
     author: "David Garcia",
     title: "Ut Enim Ad Minim",
     content:
@@ -74,6 +82,7 @@ export const BlogDummyData: IBlog[] = [
       "https://www.simplilearn.com/ice9/free_resources_article_thumb/what_is_image_Processing.jpg",
   },
   {
+    _id: "9",
     author: "Olivia Rodriguez",
     title: "Quis Nostrud",
     content:
@@ -83,10 +92,11 @@ export const BlogDummyData: IBlog[] = [
       "https://www.simplilearn.com/ice9/free_resources_article_thumb/what_is_image_Processing.jpg",
   },
   {
+    _id: "10",
     author: "James Lee",
     title: "Exercitation Ullamco",
     content:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor inc_ididunt ut labore et dolore magna aliqua.",
     date: "2024-04-09",
     thumb:
       "https://www.simplilearn.com/ice9/free_resources_article_thumb/what_is_image_Processing.jpg",

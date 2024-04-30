@@ -1,7 +1,12 @@
 import React from "react";
+import AppointmentScheduler from "../components/AppointmentSchedulerModal";
 
 const Appointment: React.FC = () => {
-  return <div>Appointment</div>;
+  return (
+    <>
+      <AppointmentScheduler />
+    </>
+  );
 };
 
 export default Appointment;
