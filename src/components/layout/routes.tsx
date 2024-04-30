@@ -59,7 +59,11 @@ const CustomRouter: React.FC = () => {
         <Route
           path="/blog"
           element={
-            data.authUser ? <Layout component={Blog} /> : <Navigate to="/" />
+            data.authUser && data.authUser.role !== "client" ? (
+              <Layout component={Blog} />
+            ) : (
+              <Navigate to="/" />
+            )
           }
         />
         <Route

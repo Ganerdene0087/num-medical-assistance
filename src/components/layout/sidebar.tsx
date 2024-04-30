@@ -7,6 +7,8 @@ import {
   blogMenuItem,
   absentMenuItem,
 } from "../../utils/menuItem";
+import { useQuery } from "@apollo/client";
+import { GET_AUTHENTICATED_USER } from "../../graphql/queries/user.query";
 
 const { Sider } = Layout;
 
@@ -27,6 +29,10 @@ const Sidebar: React.FC<SidebarProps> = ({
       setOpenKeys([parentKey]);
     }
   }, [selectedMenuItem]);
+
+  const { loading, data } = useQuery(GET_AUTHENTICATED_USER);
+  console.log("data", data);
+  if (loading) return null;
 
   const handleSubMenuOpenChange = (keys: string[]) => {
     setOpenKeys(keys);
@@ -51,13 +57,16 @@ const Sidebar: React.FC<SidebarProps> = ({
         onOpenChange={handleSubMenuOpenChange}
         style={{ flex: 1, height: "100%" }}
       >
-        <Menu.Item
-          key={appointmentMenuItem.key}
-          icon={appointmentMenuItem.icon}
-          onClick={() => onMenuItemClick(appointmentMenuItem.key)}
-        >
-          {appointmentMenuItem.text}
-        </Menu.Item>
+        {data.authUser && data.authUser.role === "client" && (
+          <Menu.Item
+            key={appointmentMenuItem.key}
+            icon={appointmentMenuItem.icon}
+            onClick={() => onMenuItemClick(appointmentMenuItem.key)}
+          >
+            {appointmentMenuItem.text}
+          </Menu.Item>
+        )}
+
         <Menu.Item
           key={inspectionMenuItems.key}
           icon={inspectionMenuItems.icon}
@@ -72,20 +81,24 @@ const Sidebar: React.FC<SidebarProps> = ({
         >
           {treatmentMenuItems.text}
         </Menu.Item>
-        <Menu.Item
-          key={blogMenuItem.key}
-          icon={blogMenuItem.icon}
-          onClick={() => onMenuItemClick(blogMenuItem.key)}
-        >
-          {blogMenuItem.text}
-        </Menu.Item>
-        <Menu.Item
-          key={absentMenuItem.key}
-          icon={absentMenuItem.icon}
-          onClick={() => onMenuItemClick(absentMenuItem.key)}
-        >
-          {absentMenuItem.text}
-        </Menu.Item>
+        {data.authUser && data.authUser.role !== "client" && (
+          <Menu.Item
+            key={blogMenuItem.key}
+            icon={blogMenuItem.icon}
+            onClick={() => onMenuItemClick(blogMenuItem.key)}
+          >
+            {blogMenuItem.text}
+          </Menu.Item>
+        )}
+        {data.authUser && data.authUser.role === "client" && (
+          <Menu.Item
+            key={absentMenuItem.key}
+            icon={absentMenuItem.icon}
+            onClick={() => onMenuItemClick(absentMenuItem.key)}
+          >
+            {absentMenuItem.text}
+          </Menu.Item>
+        )}
       </Menu>
     </Sider>
   );
