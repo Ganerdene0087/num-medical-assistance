@@ -4,6 +4,8 @@ import Blog from "../../pages/blog/containers/blog";
 import Absent from "../../pages/absent/containers/absent";
 import Treatment from "../../pages/treatment/containers/treatment";
 import NotFoundPage from "../../pages/notFound/notFound";
+import InspectionDetail from "../../pages/inspection/components/inspectionDetail";
+import TreatmentDetail from "../../pages/treatment/containers/treatmentDetail";
 import Layout from "./layout";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Appointment from "../../pages/appointment/containers/appointment";
@@ -50,10 +52,30 @@ const CustomRouter: React.FC = () => {
           }
         />
         <Route
+          path="/inspection/detail/:id"
+          element={
+            data.authUser && data.authUser.role !== "nurse" ? (
+              <Layout component={InspectionDetail} />
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />
+        <Route
           path="/treatment"
           element={
             data.authUser && data.authUser.role !== "doctor" ? (
               <Layout component={Treatment} />
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />
+        <Route
+          path="/treatment/detail/:id"
+          element={
+            data.authUser && data.authUser.role !== "doctor" ? (
+              <Layout component={TreatmentDetail} />
             ) : (
               <Navigate to="/" />
             )

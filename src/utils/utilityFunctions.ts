@@ -25,6 +25,14 @@ const routes: Route[] = [
   { pattern: /^\/appointment$/, name: "Цаг захиалга" },
   { pattern: /^\/order\/timetable$/, name: "Захиалсан цагууд" },
   { pattern: /^\/inspection$/, name: "Үзлэгийн жагсаалт" },
+  {
+    pattern: /^\/inspection\/detail\/[a-zA-Z0-9]+$/,
+    name: "Үзлэгийн дэлгэрэнгүй",
+  },
+  {
+    pattern: /^\/treatment\/detail\/[a-zA-Z0-9]+$/,
+    name: "Эмчилгээний дэлгэрэнгүй",
+  },
   { pattern: /^\/blog$/, name: "Нийтлэл" },
   { pattern: /^\/absent$/, name: "Цахим акт" },
   { pattern: /^\/treatment$/, name: "Эмчилгээ" },

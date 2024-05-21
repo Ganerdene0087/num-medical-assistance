@@ -2,6 +2,7 @@ import React from "react";
 import { Card, Typography, Button } from "antd";
 import { IAppointment } from "../../../interfaces/appointmentType";
 import { CalendarOutlined, RightOutlined } from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
 
 const { Title } = Typography;
 
@@ -10,7 +11,11 @@ interface TreatmentItemProps {
 }
 
 const TreatmentItem: React.FC<TreatmentItemProps> = ({ data }) => {
-  const handleEdit = () => {};
+  const navigate = useNavigate();
+
+  const handleEdit = () => {
+    navigate(`/treatment/detail/${data._id}`);
+  };
   return (
     <Card hoverable style={{ margin: "auto" }} className="shadow-md w-full">
       <Button

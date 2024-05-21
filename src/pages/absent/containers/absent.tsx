@@ -8,7 +8,7 @@ const Absent: React.FC = () => {
     <div>
       <AbsentItem />
       <PDFDownloadLink document={<AbsentItem />} fileName="Akt">
-        <Button type="primary">Download</Button>
+        <Button type="primary">Татах</Button>
       </PDFDownloadLink>
     </div>
   );
