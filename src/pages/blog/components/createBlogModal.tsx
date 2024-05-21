@@ -84,7 +84,7 @@ const CreateBlogModal: React.FC<CreateBlogModalProps> = ({
           name="content"
           rules={[{ required: true, message: "Заавал бөглөх шаардлагатай." }]}
         >
-          <Input.TextArea />
+          <Input.TextArea autoSize={{ minRows: 12, maxRows: 18 }} />
         </Form.Item>
       </Form>
     </Modal>

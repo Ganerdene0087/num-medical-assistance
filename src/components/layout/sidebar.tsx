@@ -66,21 +66,26 @@ const Sidebar: React.FC<SidebarProps> = ({
             {appointmentMenuItem.text}
           </Menu.Item>
         )}
+        {data.authUser && data.authUser.role !== "nurse" && (
+          <Menu.Item
+            key={inspectionMenuItems.key}
+            icon={inspectionMenuItems.icon}
+            onClick={() => onMenuItemClick(inspectionMenuItems.key)}
+          >
+            {inspectionMenuItems.text}
+          </Menu.Item>
+        )}
 
-        <Menu.Item
-          key={inspectionMenuItems.key}
-          icon={inspectionMenuItems.icon}
-          onClick={() => onMenuItemClick(inspectionMenuItems.key)}
-        >
-          {inspectionMenuItems.text}
-        </Menu.Item>
-        <Menu.Item
-          key={treatmentMenuItems.key}
-          icon={treatmentMenuItems.icon}
-          onClick={() => onMenuItemClick(treatmentMenuItems.key)}
-        >
-          {treatmentMenuItems.text}
-        </Menu.Item>
+        {data.authUser && data.authUser.role !== "doctor" && (
+          <Menu.Item
+            key={treatmentMenuItems.key}
+            icon={treatmentMenuItems.icon}
+            onClick={() => onMenuItemClick(treatmentMenuItems.key)}
+          >
+            {treatmentMenuItems.text}
+          </Menu.Item>
+        )}
+
         {data.authUser && data.authUser.role !== "client" && (
           <Menu.Item
             key={blogMenuItem.key}

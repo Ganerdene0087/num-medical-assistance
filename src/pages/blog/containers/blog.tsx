@@ -7,9 +7,12 @@ const Blog: React.FC = () => {
   const [isCreateModalVisible, setIsCreateModalVisible] = useState(false);
   return (
     <div className="flex flex-col">
-      <Button type="primary" onClick={() => setIsCreateModalVisible(true)}>
-        Нийтлэл нэмэх
-      </Button>
+      <div>
+        <Button type="primary" onClick={() => setIsCreateModalVisible(true)}>
+          Нийтлэл нэмэх
+        </Button>
+      </div>
+
       <BlogList />
       <CreateBlogModal
         visible={isCreateModalVisible}

@@ -64,7 +64,8 @@ const AppHeader: React.FC<HeaderProps> = ({ routeName }) => {
             <>
               <UserOutlined style={{ color: "white", fontSize: "14px" }} />
               <span style={{ color: "white", marginRight: "16px" }}>
-                {data.authUser && data.authUser.username}
+                {data.authUser &&
+                  `${data.authUser.lastName} ${data.authUser.firstName}`}
               </span>
             </>
 
@@ -73,7 +74,9 @@ const AppHeader: React.FC<HeaderProps> = ({ routeName }) => {
               onClick={onLogout}
               style={{ color: "white" }}
               icon={<LogoutOutlined style={{ fontSize: "14px" }} />}
-            ></Button>
+            >
+              Гарах
+            </Button>
           </Space>
         </div>
       </div>

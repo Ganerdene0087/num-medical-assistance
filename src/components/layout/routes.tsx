@@ -13,9 +13,12 @@ import { message } from "antd";
 
 const CustomRouter: React.FC = () => {
   const { loading, data, error } = useQuery(GET_AUTHENTICATED_USER);
-  console.log("data", data);
+
   if (loading) return null;
-  message.error(`${error}`);
+  if (error) {
+    message.error(`${error}`);
+  }
+
   return (
     <BrowserRouter>
       <Routes>
@@ -39,7 +42,7 @@ const CustomRouter: React.FC = () => {
         <Route
           path="/inspection"
           element={
-            data.authUser ? (
+            data.authUser && data.authUser.role !== "nurse" ? (
               <Layout component={Inspection} />
             ) : (
               <Navigate to="/" />
@@ -49,7 +52,7 @@ const CustomRouter: React.FC = () => {
         <Route
           path="/treatment"
           element={
-            data.authUser ? (
+            data.authUser && data.authUser.role !== "doctor" ? (
               <Layout component={Treatment} />
             ) : (
               <Navigate to="/" />
@@ -68,7 +71,17 @@ const CustomRouter: React.FC = () => {
         />
         <Route
           path="/"
-          element={!data.authUser ? <HomePage /> : <Navigate to="/treatment" />}
+          element={
+            !data.authUser ? (
+              <HomePage />
+            ) : data.authUser.role === "client" ? (
+              <Navigate to="/appointment" />
+            ) : data.authUser.role === "doctor" ? (
+              <Navigate to="/inspection" />
+            ) : (
+              <Navigate to="/treatment" />
+            )
+          }
         />
         <Route path="*" element={<Layout component={NotFoundPage} />} />
       </Routes>

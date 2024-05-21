@@ -8,8 +8,8 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     paddingTop: 30,
     padding: 30,
-    borderWidth: 1, // Added border
-    borderColor: "#000", // Border color
+    borderWidth: 1,
+    borderColor: "#000",
     display: "flex",
   },
   title: {
@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   contentContainer: {
-    flexDirection: "column", // Changed to column
+    flexDirection: "column",
     marginBottom: 20,
     width: "100%",
   },
