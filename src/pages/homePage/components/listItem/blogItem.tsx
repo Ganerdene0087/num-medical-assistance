@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { Card, Typography, Image, Button } from "antd";
 import { IBlog } from "../../../../interfaces/blogType";
-import { CalendarOutlined, EditOutlined } from "@ant-design/icons";
+import { CalendarOutlined } from "@ant-design/icons";
 import BlogDetailModal from "../../../blog/components/blogDetailModal";
+import { useQuery } from "@apollo/client";
+import { GET_USER_BY_ID } from "../../../../graphql/queries/user.query";
 
 const { Title, Paragraph } = Typography;
 
@@ -12,6 +14,22 @@ interface BlogItemProps {
 
 const BlogItem: React.FC<BlogItemProps> = ({ data }) => {
   const [isDetailModalVisible, setIsDetailModalVisible] = useState(false);
+
+  const { data: userData } = useQuery(GET_USER_BY_ID, {
+    variables: { userId: data?.authorId },
+  });
+
+  const formatDate = (timestamp?: string) => {
+    if (!timestamp) return "Invalid date";
+    return new Date(parseInt(timestamp, 10)).toLocaleString("en-GB", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    });
+  };
 
   return (
     <Card hoverable style={{ margin: "auto" }} className="shadow-md w-[70%]">
@@ -27,7 +45,11 @@ const BlogItem: React.FC<BlogItemProps> = ({ data }) => {
           <div>
             <Title level={5}>{data.title}</Title>
             <p>
-              Нийтэлсэн: <span className="text-blue-700">{data.author}</span>
+              Нийтэлсэн:{" "}
+              <span className="text-blue-700">
+                {" "}
+                {userData.user.lastName} {userData.user.firstName}
+              </span>
             </p>
           </div>
           <Paragraph
@@ -46,7 +68,9 @@ const BlogItem: React.FC<BlogItemProps> = ({ data }) => {
               }}
             >
               <CalendarOutlined />
-              <span style={{ paddingLeft: "3px" }}>{data.date}</span>
+              <span style={{ paddingLeft: "3px" }}>
+                {formatDate(data.createdAt)}
+              </span>
             </div>
             <Button onClick={() => setIsDetailModalVisible(true)}>
               Дэлгэрэнгүй

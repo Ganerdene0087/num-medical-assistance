@@ -1,6 +1,9 @@
 import React, { useEffect } from "react";
 import { Modal, Form, Input, Button, Row, Col, message } from "antd";
 import { IBlog } from "../../../interfaces/blogType";
+import { useMutation } from "@apollo/client";
+import { CREATE_BLOG } from "../../../graphql/mutations/blog.mutation";
+import { GET_BLOG } from "../../../graphql/queries/blog.query";
 
 interface CreateBlogModalProps {
   visible: boolean;
@@ -17,6 +20,14 @@ const CreateBlogModal: React.FC<CreateBlogModalProps> = ({
 }) => {
   const [form] = Form.useForm();
 
+  const [createBlog] = useMutation(CREATE_BLOG, {
+    refetchQueries: [
+      {
+        query: GET_BLOG,
+      },
+    ],
+  });
+
   useEffect(() => {
     if (type === "Edit" && data) {
       form.setFieldsValue({
@@ -29,12 +40,18 @@ const CreateBlogModal: React.FC<CreateBlogModalProps> = ({
     try {
       const values = await form.validateFields();
 
+      await createBlog({
+        variables: {
+          input: values,
+        },
+      });
+
       console.log("values", values);
     } catch (error) {
       console.error("Validation failed:", error);
       message.error(`${error}`);
     } finally {
-      // onCancel();
+      onCancel();
     }
   };
 

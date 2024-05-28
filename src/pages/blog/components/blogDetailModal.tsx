@@ -1,6 +1,8 @@
 import React from "react";
 import { Modal, Button } from "antd";
 import { IBlog } from "../../../interfaces/blogType";
+import { GET_USER_BY_ID } from "../../../graphql/queries/user.query";
+import { useQuery } from "@apollo/client";
 
 interface BlogDetailModalProps {
   blog: IBlog;
@@ -13,10 +15,13 @@ const BlogDetailModal: React.FC<BlogDetailModalProps> = ({
   onCancel,
   blog,
 }) => {
+  const { data: userData } = useQuery(GET_USER_BY_ID, {
+    variables: { userId: blog?.authorId },
+  });
+
   return (
     <Modal
       open={visible}
-      title="Blog Details"
       onCancel={onCancel}
       footer={[
         <Button key="cancel" onClick={onCancel}>
@@ -36,7 +41,12 @@ const BlogDetailModal: React.FC<BlogDetailModalProps> = ({
             />
           </div>
         )}
-        <p className="text-sm text-gray-500 mb-4">By {blog?.author}</p>
+        <p>
+          Нийтэлсэн:{" "}
+          <span className="text-blue-700">
+            {userData.user.lastName} {userData.user.firstName}
+          </span>
+        </p>
         <div className="prose prose-lg max-w-full">{blog?.content}</div>
       </div>
     </Modal>

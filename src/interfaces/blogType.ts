@@ -1,6 +1,6 @@
 export interface IBlog {
   _id: string;
-  author: string;
+  authorId: string;
   title: string;
   content: string;
   date: string;
