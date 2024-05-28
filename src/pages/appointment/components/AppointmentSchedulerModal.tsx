@@ -3,8 +3,12 @@ import { Calendar, List, Button, message } from "antd";
 import moment from "moment";
 import dayjs from "dayjs";
 import "dayjs/locale/en";
+import { useMutation } from "@apollo/client";
+import { CREATE_INSPECTION } from "../../../graphql/mutations/inspection.mutation";
 
 const AppointmentScheduler: React.FC = () => {
+  const [createInspection] = useMutation(CREATE_INSPECTION);
+
   const [selectedDate, setSelectedDate] = useState<moment.Moment | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
 
@@ -45,13 +49,25 @@ const AppointmentScheduler: React.FC = () => {
     }
   };
 
-  const handleOk = () => {
+  const handleOk = async () => {
     if (selectedDate && selectedTime) {
       message.success(
         `Appointment set for ${selectedDate.format(
           "YYYY-MM-DD"
         )} at ${selectedTime}`
       );
+      const date = `${selectedDate.format("YYYY-MM-DD")}-${selectedTime}`;
+
+      try {
+        await createInspection({
+          variables: {
+            input: { date: date, diagnosis: " ", prescription: " " },
+          },
+        });
+      } catch (error) {
+        console.error("Validation failed:", error);
+        message.error(`${error}`);
+      }
     } else {
       message.error("Please select a date and time.");
     }

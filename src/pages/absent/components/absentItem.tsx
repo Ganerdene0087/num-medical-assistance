@@ -1,4 +1,3 @@
-import React from "react";
 import { Page, Text, Document, StyleSheet, Font } from "@react-pdf/renderer";
 
 Font.register({
@@ -51,7 +50,7 @@ const AbsentItem = () => {
         <Text style={styles.text}>2. Нас: 23</Text>
         <Text style={styles.text}>3. Хаяг: aaaa</Text>
         <Text style={styles.text}>
-          4. Өвчтэй байсан 2024 оны 4 сарын 9 өдрөөс 2024 оны 5 сарын 9 хүртэл
+          4. Өвчтэй байсан 2024 оны 5 сарын 22 өдрөөс 2024 оны 5 сарын 23 хүртэл
           хичээлээс чөлөөлснийг магадлав.
         </Text>
         <Text style={styles.text}>5. Үндсэн онош: Ханиад</Text>

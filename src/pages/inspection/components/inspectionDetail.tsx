@@ -1,12 +1,22 @@
 import React, { useState } from "react";
-import { Divider, Form, Input, Button, Select } from "antd";
+import { Divider, Form, Input, Button, Select, message } from "antd";
 import { useQuery } from "@apollo/client";
 import { GET_AUTHENTICATED_USER } from "../../../graphql/queries/user.query";
+import { useMutation } from "@apollo/client";
+import { CREATE_TREATMENT } from "../../../graphql/mutations/treatment.mutation";
+import { GET_INSPECTION_BY_ID } from "../../../graphql/queries/inspection.query";
+import { useParams } from "react-router-dom";
 
 const { Option } = Select;
 
 const InspectionDetail: React.FC = () => {
-  const { data } = useQuery(GET_AUTHENTICATED_USER);
+  const { id } = useParams<{ id: string }>();
+  console.log("id", id);
+  const [createTreatment] = useMutation(CREATE_TREATMENT);
+
+  const { data: authUser } = useQuery(GET_AUTHENTICATED_USER);
+
+  console.log("user", authUser);
   interface Treatment {
     type: string;
     frequency: string;
@@ -21,9 +31,9 @@ const InspectionDetail: React.FC = () => {
   };
 
   const inspectionData = {
-    date: "2024-05-24",
-    diagnosis: "Ханиад",
-    prescriptions: "",
+    date: "2024-05-22",
+    diagnosis: " ",
+    prescriptions: " ",
   };
 
   const [treatments, setTreatments] = useState<Treatment[]>([]);
@@ -42,8 +52,22 @@ const InspectionDetail: React.FC = () => {
     setTreatments(updatedTreatments);
   };
 
-  const handleSaveTreatment = (index: number) => {
+  const handleSaveTreatment = async (index: number) => {
     console.log("Saving treatment:", treatments[index]);
+    try {
+      await createTreatment({
+        variables: {
+          input: {
+            inspectionId: id,
+            type: treatments[index].type,
+            frequency: Number(treatments[index].frequency),
+          },
+        },
+      });
+    } catch (error) {
+      console.error("Validation failed:", error);
+      message.error(`${error}`);
+    }
   };
 
   return (
@@ -79,12 +103,12 @@ const InspectionDetail: React.FC = () => {
             <Input defaultValue={inspectionData.date} disabled />
           </Form.Item>
           <Form.Item label="Онош" name="diagnosis">
-            <Input.TextArea disabled={data.authUser.role !== "doctor"} />
+            <Input.TextArea disabled={authUser.authUser?.role !== "doctor"} />
           </Form.Item>
           <Form.Item label="Эмийн жор" name="prescriptions">
-            <Input.TextArea disabled={data.authUser.role !== "doctor"} />
+            <Input.TextArea disabled={authUser.authUser?.role !== "doctor"} />
           </Form.Item>
-          {data.authUser.role !== "doctor" && (
+          {authUser.authUser?.role === "doctor" && (
             <Button type="primary" htmlType="submit">
               Хадгалах
             </Button>
@@ -149,7 +173,7 @@ const InspectionDetail: React.FC = () => {
               </div>
             </div>
           ))}
-          {data.authUser.role === "doctor" && (
+          {authUser.authUser?.role === "doctor" && (
             <Button
               type="dashed"
               onClick={handleAddTreatment}
@@ -160,7 +184,7 @@ const InspectionDetail: React.FC = () => {
           )}
         </div>
       </div>
-      {data.authUser.role === "doctor" && (
+      {authUser.authUser?.role === "doctor" && (
         <Button type="primary">Акт үүсгэх</Button>
       )}
     </div>
