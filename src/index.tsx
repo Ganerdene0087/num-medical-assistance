@@ -10,7 +10,7 @@ const root = ReactDOM.createRoot(
 );
 
 const client = new ApolloClient({
-  uri: "http://localhost:4000/graphql",
+  uri: "num-medical-assistance-backend.vercel.app",
   cache: new InMemoryCache(),
   credentials: "include",
 });
