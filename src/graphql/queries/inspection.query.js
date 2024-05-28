@@ -14,7 +14,7 @@ export const GET_INSPECTIONS = gql`
 
 export const GET_INSPECTION_BY_ID = gql`
   query GetInspectionById($inspectionId: ID!) {
-    inspection(userId: $userId) {
+    inspection(inspectionId: $inspectionId) {
       _id
       clientId
       date

@@ -1,42 +1,56 @@
 import React, { useState } from "react";
-import { Divider, Form, Input, Button, Select, message } from "antd";
+import { Divider, Form, Input, Button, Select, message, Alert } from "antd";
 import { useQuery } from "@apollo/client";
-import { GET_AUTHENTICATED_USER } from "../../../graphql/queries/user.query";
+import {
+  GET_AUTHENTICATED_USER,
+  GET_USER_BY_ID,
+} from "../../../graphql/queries/user.query";
 import { useMutation } from "@apollo/client";
 import { CREATE_TREATMENT } from "../../../graphql/mutations/treatment.mutation";
 import { GET_INSPECTION_BY_ID } from "../../../graphql/queries/inspection.query";
 import { useParams } from "react-router-dom";
+import { UPDATE_INSPECTION } from "../../../graphql/mutations/inspection.mutation";
 
 const { Option } = Select;
 
 const InspectionDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   console.log("id", id);
+
+  const [treatments, setTreatments] = useState<Treatment[]>([]);
+  const [updateInspection] = useMutation(UPDATE_INSPECTION);
+
   const [createTreatment] = useMutation(CREATE_TREATMENT);
 
   const { data: authUser } = useQuery(GET_AUTHENTICATED_USER);
 
-  console.log("user", authUser);
+  const { data: inspectionData, error: inspectionError } = useQuery(
+    GET_INSPECTION_BY_ID,
+    {
+      variables: { inspectionId: id },
+    }
+  );
+
+  const { data: userData } = useQuery(GET_USER_BY_ID, {
+    variables: { userId: inspectionData.inspection.clientId },
+  });
+
+  console.log("inspection", inspectionData);
+
+  if (inspectionError) {
+    return (
+      <Alert
+        message="Error"
+        description={inspectionError.message}
+        type="error"
+      />
+    );
+  }
+
   interface Treatment {
     type: string;
     frequency: string;
   }
-
-  const userData = {
-    firstName: "Ган-Эрдэнэ",
-    lastName: "Отгонболд",
-    registerNumber: "УЗ00280732",
-    age: 23,
-    phone: "95465069",
-  };
-
-  const inspectionData = {
-    date: "2024-05-22",
-    diagnosis: " ",
-    prescriptions: " ",
-  };
-
-  const [treatments, setTreatments] = useState<Treatment[]>([]);
 
   const handleAddTreatment = () => {
     setTreatments([...treatments, { type: "", frequency: "" }]);
@@ -53,7 +67,6 @@ const InspectionDetail: React.FC = () => {
   };
 
   const handleSaveTreatment = async (index: number) => {
-    console.log("Saving treatment:", treatments[index]);
     try {
       await createTreatment({
         variables: {
@@ -70,26 +83,45 @@ const InspectionDetail: React.FC = () => {
     }
   };
 
+  const handleUpdateInspection = async (values: any) => {
+    try {
+      await updateInspection({
+        variables: {
+          input: {
+            _id: id,
+            date: inspectionData.inspection.date,
+            diagnosis: values.diagnosis,
+            prescription: values.prescriptions,
+          },
+        },
+      });
+      message.success("Inspection details updated successfully");
+    } catch (error) {
+      console.error("Update failed:", error);
+      message.error("Failed to update inspection details");
+    }
+  };
+
   return (
     <div className="w-full items-center flex flex-col h-full p-4">
       <div className="w-full mb-6">
         <h2 className="text-lg font-semibold mb-2">Өвчтөний мэдээлэл</h2>
         <div className="flex flex-col">
           <div className="mb-2">
-            <span className="font-bold">Нэр:</span> {userData.firstName}
+            <span className="font-bold">Нэр:</span> {userData?.user.firstName}
           </div>
           <div className="mb-2">
-            <span className="font-bold">Овог:</span> {userData.lastName}
+            <span className="font-bold">Овог:</span> {userData?.user.lastName}
           </div>
           <div className="mb-2">
             <span className="font-bold">Регистрийн дугаар:</span>{" "}
-            {userData.registerNumber}
+            {userData.user.registerNumber}
           </div>
           <div className="mb-2">
-            <span className="font-bold">Нас:</span> {userData.age}
+            <span className="font-bold">Нас:</span> {userData.user.age}
           </div>
           <div>
-            <span className="font-bold">Утас:</span> {userData.phone}
+            <span className="font-bold">Утас:</span> {userData.user.phone}
           </div>
         </div>
       </div>
@@ -98,9 +130,16 @@ const InspectionDetail: React.FC = () => {
 
       <div className="mb-6 w-full">
         <h2 className="text-lg font-semibold mb-2">Үзлэгийн дэлгэрэнгүй</h2>
-        <Form layout="vertical">
+        <Form
+          layout="vertical"
+          initialValues={{
+            diagnosis: inspectionData?.inspection?.diagnosis,
+            prescriptions: inspectionData?.inspection?.prescription,
+          }}
+          onFinish={handleUpdateInspection}
+        >
           <Form.Item label="Огноо">
-            <Input defaultValue={inspectionData.date} disabled />
+            <Input defaultValue={inspectionData?.inspection.date} disabled />
           </Form.Item>
           <Form.Item label="Онош" name="diagnosis">
             <Input.TextArea disabled={authUser.authUser?.role !== "doctor"} />
