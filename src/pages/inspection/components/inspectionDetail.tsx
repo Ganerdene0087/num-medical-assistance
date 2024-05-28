@@ -19,6 +19,9 @@ import { GET_INSPECTION_BY_ID } from "../../../graphql/queries/inspection.query"
 import { useParams } from "react-router-dom";
 import { UPDATE_INSPECTION } from "../../../graphql/mutations/inspection.mutation";
 import { GET_TREATMENTS_BY_INSPECTION } from "../../../graphql/queries/treatment.query";
+import { CREATE_ABSENTNOTE } from "../../../graphql/mutations/absentNote.mutation";
+import { GET_ABSENTNOTE_BY_INSPECTION } from "../../../graphql/queries/absentNote.query";
+import AbsentItem from "../../absent/components/absentItem";
 
 const { Option } = Select;
 
@@ -32,6 +35,16 @@ const InspectionDetail: React.FC = () => {
     refetchQueries: [
       {
         query: GET_TREATMENTS_BY_INSPECTION,
+        variables: { inspectionId: id },
+      },
+    ],
+  });
+  const [showAbsentNoteForm, setShowAbsentNoteForm] = useState(false);
+
+  const [createAbsentNote] = useMutation(CREATE_ABSENTNOTE, {
+    refetchQueries: [
+      {
+        query: GET_ABSENTNOTE_BY_INSPECTION,
         variables: { inspectionId: id },
       },
     ],
@@ -59,7 +72,15 @@ const InspectionDetail: React.FC = () => {
     variables: { userId: inspectionData?.inspection?.clientId },
   });
 
-  if (inspectionLoading || treatmentLoading) {
+  const {
+    data: absentNoteQueryData,
+    error: absentError,
+    loading: absentLoading,
+  } = useQuery(GET_ABSENTNOTE_BY_INSPECTION, {
+    variables: { inspectionId: id },
+  });
+
+  if (inspectionLoading || treatmentLoading || absentLoading) {
     return (
       <div
         style={{
@@ -81,6 +102,12 @@ const InspectionDetail: React.FC = () => {
         description={inspectionError.message}
         type="error"
       />
+    );
+  }
+
+  if (absentError) {
+    return (
+      <Alert message="Error" description={absentError.message} type="error" />
     );
   }
   if (treatmentError) {
@@ -151,6 +178,31 @@ const InspectionDetail: React.FC = () => {
       console.error("Update failed:", error);
       message.error("Failed to update inspection details");
     }
+  };
+
+  const handleCreateAbsentNote = async (values: any) => {
+    try {
+      await createAbsentNote({
+        variables: {
+          input: {
+            clientId: inspectionData.inspection.clientId,
+            inspectionId: id,
+            start_date: values.start_date,
+            end_date: values.end_date,
+            reason: inspectionData.inspection.diagnosis,
+          },
+        },
+      });
+      message.success("Чөлөөний хуудас амжилттай үүслээ.");
+      setShowAbsentNoteForm(false);
+    } catch (error) {
+      console.error("Failed to create absent note:", error);
+      message.error("Чөлөөний хуудас үүсгэхэд алдаа гарлаа");
+    }
+  };
+
+  const toggleAbsentNoteForm = () => {
+    setShowAbsentNoteForm(!showAbsentNoteForm);
   };
 
   return (
@@ -318,9 +370,56 @@ const InspectionDetail: React.FC = () => {
           )}
         </div>
       </div>
-      {authUser.authUser?.role === "doctor" && (
+      {/* {authUser.authUser?.role === "doctor" && (
         <Button type="primary">Акт үүсгэх</Button>
-      )}
+      )} */}
+      <Divider />
+
+      <div className="mb-6 w-full">
+        <h2 className="text-lg font-semibold mb-2">Чөлөөний бичиг</h2>
+        {absentNoteQueryData?.absentNoteByInspection.length > 0 ? (
+          absentNoteQueryData?.absentNoteByInspection.map((absentItem: any) => (
+            <AbsentItem absentNote={absentItem} />
+          ))
+        ) : (
+          <>
+            {showAbsentNoteForm && (
+              <Form onFinish={handleCreateAbsentNote}>
+                <Form.Item
+                  label="Эхлэх огноо"
+                  name="start_date"
+                  rules={[
+                    { required: true, message: "Эхлэх огноо оруулна уу" },
+                  ]}
+                >
+                  <Input type="date" />
+                </Form.Item>
+                <Form.Item
+                  label="Дуусах огноо"
+                  name="end_date"
+                  rules={[
+                    { required: true, message: "Дуусах огноо оруулна уу" },
+                  ]}
+                >
+                  <Input type="date" />
+                </Form.Item>
+
+                <Button type="primary" htmlType="submit">
+                  Хадгалах
+                </Button>
+                <Button type="default" onClick={toggleAbsentNoteForm}>
+                  Буцах
+                </Button>
+              </Form>
+            )}
+            {!showAbsentNoteForm && (
+              <Button type="primary" onClick={toggleAbsentNoteForm}>
+                Акт үүсгэх
+              </Button>
+            )}
+          </>
+        )}
+      </div>
     </div>
   );
 };

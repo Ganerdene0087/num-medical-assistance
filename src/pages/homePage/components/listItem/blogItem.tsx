@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Card, Typography, Image, Button } from "antd";
+import { Card, Typography, Image, Button, Spin } from "antd";
 import { IBlog } from "../../../../interfaces/blogType";
 import { CalendarOutlined } from "@ant-design/icons";
 import BlogDetailModal from "../../../blog/components/blogDetailModal";
@@ -15,9 +15,24 @@ interface BlogItemProps {
 const BlogItem: React.FC<BlogItemProps> = ({ data }) => {
   const [isDetailModalVisible, setIsDetailModalVisible] = useState(false);
 
-  const { data: userData } = useQuery(GET_USER_BY_ID, {
+  const { data: userData, loading } = useQuery(GET_USER_BY_ID, {
     variables: { userId: data?.authorId },
   });
+
+  if (loading) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <Spin size="large" />
+      </div>
+    );
+  }
 
   const formatDate = (timestamp?: string) => {
     if (!timestamp) return "Invalid date";

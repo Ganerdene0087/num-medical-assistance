@@ -1,4 +1,7 @@
 import { Page, Text, Document, StyleSheet, Font } from "@react-pdf/renderer";
+import { useQuery } from "@apollo/client";
+import { GET_USER_BY_ID } from "../../../graphql/queries/user.query";
+import { Spin } from "antd";
 
 Font.register({
   family: "Roboto",
@@ -22,38 +25,50 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     textAlign: "center",
   },
-  contentContainer: {
-    flexDirection: "column",
-    marginBottom: 20,
-    width: "100%",
-  },
   text: {
     fontSize: 12,
     marginBottom: 8,
   },
-  listItem: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  listItemNumber: {
-    marginRight: 8,
-  },
 });
 
-const AbsentItem = () => {
+const AbsentItem = ({ absentNote }: any) => {
+  const { data: userData, loading } = useQuery(GET_USER_BY_ID, {
+    variables: { userId: absentNote.clientId },
+    fetchPolicy: "network-only",
+  });
+
+  if (loading) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <Spin size="large" />
+      </div>
+    );
+  }
+
+  console.log("user", userData);
+
   return (
     <Document>
       <Page style={styles.page}>
         <Text style={styles.title}>Эмчийн магадлагаа</Text>
-        <Text style={styles.text}>РД: УЗ00280732</Text>
-        <Text style={styles.text}>1. Овог: Отгонболд Нэр: Ган-Эрдэнэ</Text>
-        <Text style={styles.text}>2. Нас: 23</Text>
-        <Text style={styles.text}>3. Хаяг: aaaa</Text>
+        <Text style={styles.text}>РД: {userData?.user?.registerNumber}</Text>
         <Text style={styles.text}>
-          4. Өвчтэй байсан 2024 оны 5 сарын 22 өдрөөс 2024 оны 5 сарын 23 хүртэл
-          хичээлээс чөлөөлснийг магадлав.
+          1. Овог: {userData?.user?.firstName} Нэр: {userData?.user?.lastName}
         </Text>
-        <Text style={styles.text}>5. Үндсэн онош: Ханиад</Text>
+        <Text style={styles.text}>2. Нас: {userData?.user?.age}</Text>
+        <Text style={styles.text}>3. Хаяг: {userData?.user?.address}</Text>
+        <Text style={styles.text}>
+          4. Өвчтэй байсан {absentNote.start_date} өдрөөс {absentNote.end_date}{" "}
+          хүртэл хичээлээс чөлөөлснийг магадлав.
+        </Text>
+        <Text style={styles.text}>5. Үндсэн онош: {absentNote.reason}</Text>
         <Text style={{ ...styles.text, marginTop: 30 }}>
           Ерөнхий эмч: doctor1
         </Text>
