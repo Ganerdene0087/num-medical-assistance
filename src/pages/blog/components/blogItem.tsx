@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Card, Typography, Image, Button } from "antd";
+import { Card, Typography, Image, Button, Spin } from "antd";
 import { IBlog } from "../../../interfaces/blogType";
 import { CalendarOutlined, EditOutlined } from "@ant-design/icons";
 import CreateBlogModal from "./createBlogModal";
@@ -17,9 +17,24 @@ const BlogItem: React.FC<BlogItemProps> = ({ data }) => {
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
   const [isDetailModalVisible, setIsDetailModalVisible] = useState(false);
 
-  const { data: userData } = useQuery(GET_USER_BY_ID, {
+  const { data: userData, loading } = useQuery(GET_USER_BY_ID, {
     variables: { userId: data?.authorId },
   });
+
+  if (loading) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <Spin size="large" />
+      </div>
+    );
+  }
 
   const handleEdit = () => {
     setIsEditModalVisible(true);
@@ -60,7 +75,7 @@ const BlogItem: React.FC<BlogItemProps> = ({ data }) => {
             <p>
               Нийтэлсэн:{" "}
               <span className="text-blue-700">
-                {userData.user.lastName} {userData.user.firstName}
+                {userData?.user?.lastName} {userData?.user?.firstName}
               </span>
             </p>
           </div>

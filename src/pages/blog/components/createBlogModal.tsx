@@ -2,7 +2,10 @@ import React, { useEffect } from "react";
 import { Modal, Form, Input, Button, Row, Col, message } from "antd";
 import { IBlog } from "../../../interfaces/blogType";
 import { useMutation } from "@apollo/client";
-import { CREATE_BLOG } from "../../../graphql/mutations/blog.mutation";
+import {
+  CREATE_BLOG,
+  UPDATE_BLOG,
+} from "../../../graphql/mutations/blog.mutation";
 import { GET_BLOG } from "../../../graphql/queries/blog.query";
 
 interface CreateBlogModalProps {
@@ -28,6 +31,14 @@ const CreateBlogModal: React.FC<CreateBlogModalProps> = ({
     ],
   });
 
+  const [updateBlog] = useMutation(UPDATE_BLOG, {
+    refetchQueries: [
+      {
+        query: GET_BLOG,
+      },
+    ],
+  });
+
   useEffect(() => {
     if (type === "Edit" && data) {
       form.setFieldsValue({
@@ -39,14 +50,28 @@ const CreateBlogModal: React.FC<CreateBlogModalProps> = ({
   const handleOk = async () => {
     try {
       const values = await form.validateFields();
+      if (type === "Edit" && data) {
+        await updateBlog({
+          variables: {
+            input: {
+              _id: data?._id,
+              content: values.content,
+              title: values.title,
+              thumb: values.thumb,
+            },
+          },
+        });
+      } else {
+        await createBlog({
+          variables: {
+            input: values,
+          },
+        });
+      }
 
-      await createBlog({
-        variables: {
-          input: values,
-        },
-      });
-
-      console.log("values", values);
+      message.success(
+        `${type === "Edit" ? "Нийтлэл засагдлаа" : "Нийтлэл бичигдлээ"}`
+      );
     } catch (error) {
       console.error("Validation failed:", error);
       message.error(`${error}`);
@@ -65,7 +90,7 @@ const CreateBlogModal: React.FC<CreateBlogModalProps> = ({
           Болих
         </Button>,
         <Button key="ok" type="primary" onClick={handleOk}>
-          Нийтлэх
+          {type === "Edit" ? "Засах" : "Нийтлэх"}
         </Button>,
       ]}
       width={800}

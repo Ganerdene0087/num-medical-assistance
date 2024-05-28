@@ -31,7 +31,7 @@ const Sidebar: React.FC<SidebarProps> = ({
   }, [selectedMenuItem]);
 
   const { loading, data } = useQuery(GET_AUTHENTICATED_USER);
-  console.log("data", data);
+
   if (loading) return null;
 
   const handleSubMenuOpenChange = (keys: string[]) => {

@@ -24,7 +24,6 @@ const { Option } = Select;
 
 const InspectionDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  console.log("id", id);
 
   const [treatments, setTreatments] = useState<Treatment[]>([]);
   const [updateInspection] = useMutation(UPDATE_INSPECTION);
