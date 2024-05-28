@@ -9,3 +9,16 @@ export const CREATE_TREATMENT = gql`
     }
   }
 `;
+
+export const UPDATE_TREATMENT = gql`
+  mutation UpdateTreatment($input: UpdateTreatmentInput) {
+    updateTreatment(input: $input) {
+      _id
+      inspectionId
+      clientId
+      type
+      frequency
+      isDone
+    }
+  }
+`;

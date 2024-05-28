@@ -20,7 +20,7 @@ const SignUpModal: React.FC<SignUpModalProps> = ({ visible, onCancel }) => {
         ...values,
         age: parseInt(values.age),
         phone: parseInt(values.phone),
-        role: "nurse",
+        role: "client",
       };
 
       await signUp({

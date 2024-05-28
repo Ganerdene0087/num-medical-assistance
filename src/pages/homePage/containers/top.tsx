@@ -18,7 +18,7 @@ const Top: React.FC = () => {
               className="text-white text-center text-6xl"
               style={{ textShadow: "0 0 8px #1890ff" }}
             >
-              МУИС-ийн эмнэлэгийн веб программ
+              МУИС-ийн эмнэлгийн веб программ
             </div>
           </div>
         </Col>
