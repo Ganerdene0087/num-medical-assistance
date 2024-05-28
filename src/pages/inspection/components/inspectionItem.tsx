@@ -35,7 +35,7 @@ const InspectionItem: React.FC<InspectionItemProps> = ({ inspection }) => {
   const user = data.user;
 
   return (
-    <Card hoverable style={{ margin: "auto" }} className="shadow-md w-full">
+    <Card hoverable className="shadow-md w-full my-8">
       <Button
         type="text"
         icon={<RightOutlined />}

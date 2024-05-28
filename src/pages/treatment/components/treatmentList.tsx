@@ -55,7 +55,7 @@ const TreatmentList: React.FC = () => {
           <>Хийгдэх эмчилгээ байхгүй.</>
         )}
       </TabPane>
-      <TabPane tab="Хийгдсан эмчилгээ" key="2">
+      <TabPane tab="Хийгдсэн эмчилгээ" key="2">
         {dataDone?.treatmentsByIsDone.length > 0 ? (
           dataDone.treatmentsByIsDone.map((item: ITreatment) => (
             <TreatmentItem key={item._id} data={item} />

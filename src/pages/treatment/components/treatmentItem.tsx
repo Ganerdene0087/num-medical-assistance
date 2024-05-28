@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Typography, Switch, message } from "antd";
+import { Card, Typography, Switch, message, Divider } from "antd";
 import { ITreatment } from "../../../interfaces/treatmentType";
 import {
   GET_USER_BY_ID,
@@ -80,10 +80,13 @@ const TreatmentItem: React.FC<TreatmentItemProps> = ({ data }) => {
           </div>
         </div>
 
+        <Divider />
+
         <div className="flex justify-between items-center">
           <div className="flex flex-col ml-4">
             <div>
               <Title level={5}>Эмчилгээний төрөл: {data.type}</Title>
+              <Title level={5}>Давтамж: {data.frequency}</Title>
             </div>
           </div>
           <div>
